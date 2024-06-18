@@ -14,37 +14,23 @@ pipeline {
         }
         stage('Setup Node.js') {
             steps {
-                // Use the NodeJS plugin to set up Node.js
-                // This assumes the NodeJS plugin is installed and configured
-                nodejs(nodeJSInstallationName: 'NodeJS') {
-                    // Print Node.js version
-                    sh 'node --version'
-                    // Print npm version
-                    sh 'npm --version'
-                }
+               bat 'node --version'
+               bat 'npm --version'
             }
         }
         stage('Install Dependencies') {
             steps {
                 // Install npm dependencies
-                sh 'npm ci'
+                bat 'npm ci'
             }
         }
         stage('Run Playwright Tests') {
             steps {
                 // Install the Playwright browsers
-                sh 'npx playwright install'
+                bat 'npx playwright install'
                 // Run the Playwright tests
-                sh 'npx playwright test'
-            }
-        }
-    }
-    
-    post {
-        always {
-            // Archive test results or perform any cleanup here
-            archiveArtifacts artifacts: 'test-results/**', allowEmptyArchive: true
-            junit 'test-results/**/*.xml' // Adjust this if you have junit reports
+                bat 'npx playwright test'
+           }
         }
     }
 }
